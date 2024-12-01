@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/images/logo-egg.png" />
+    <title>Login</title>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <a href="/" title="Recipe Book Homepage">
+        <div class="logo-container">
+          <img src="/images/logo-egg.png" />
+          <h3>Recipe Book</h3>
+        </div>
+        </a>
+        <div class="nav-container">
+          <nav>
+            <ul>
+              <li><a href="/">Home</a></li>
+            </ul>
+          </nav>
+          <button class="button" onclick= "window.location.href = '/search'">Search Recipes</button>
+          <div id="auth-buttons">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="login-reg">
+      <div id="login-container">
+        <h1>Login to Your Account</h1>
+        <form>
+          <input type="text" id="username" placeholder="Username" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <p id="error-message" style="color: red; display: none;">Incorrect username or password.</p>
+          <button type="submit" class="submit-button" onclick="submitForm(event)">Login</button>
+        </form>
+        <p>Don't have an account? <a onclick="signup()">Sign-Up</a></p>
+      </div>
+      <div id="signup-container" style="display: none;">
+        <h1>Create an Account</h1>
+        <form id="signup" class="userInput" action="/signup" method="post" onsubmit="registerInfo(event)">
+          <input type="email" id="new-email" placeholder="Email" required />
+          <p id="emailError" style="color: red; display: none;">Email already taken.</p>
+          <input type="text" id="new-username" placeholder="Username" required />
+          <p id="nameError" style="color: red; display: none;">Username already taken.</p>
+          <input type="password" id="new-password" placeholder="Password" required />
+          <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+          <p id="passError" style="color: red; display: none;">Passwords don't match.</p>
+          <button type="submit" class="submit-button" onclick="registerInfo()">Sign Up</button>
+        </form>
+        <p>Already have an account? <a onclick="login()">Login</a></p>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch('/auth-status')
+      .then(response => response.json())
+      .then(data => {
+          console.log('Auth status:', data);
+          const authButtons = document.getElementById('auth-buttons');
+
+          if (data.loggedIn) {
+              // User is logged in, show Sign-Out button and username label
+              authButtons.innerHTML = `
+                  <button class="auth-button" onclick="signOut()">SignOut</button>
+                  <span class="username-label"><img src="/images/person.png"/ alt="profile-icon" id="profile"><strong>${data.username}</strong></span>
+              `;
+          } else {
+              // User is not logged in, show Login and Sign-Up buttons
+              authButtons.innerHTML = `
+                  <a href="/login" class="auth-button">Login</a>
+                  <a href="/signup" class="auth-button">SignUp</a>
+              `;
+          }
+      })
+      .catch(error => console.error('Error checking auth status:', error));
+      });
+      function signOut() {
+        fetch('/logout', { method: 'POST' })
+          .then(response => {
+            if (response.ok) {
+              window.location.reload();
+            }
+          })
+        .catch(error => console.error('Error during logout:', error));
+      }
+
+      var password = document.getElementById("new-password"), confirm_password = document.getElementById("confirm-password");
+      var userEmail = document.getElementById("new-email");
+      var userUsername = document.getElementById("new-username");
+      var errorMessage = document.getElementById("error-message");
+      var passError = document.getElementById("passError");
+      var emailError = document.getElementById("emailError");
+      var nameError = document.getElementById("nameError");
+
+      // Login event
+      function submitForm(event) {
+            event.preventDefault();
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(response => {
+                if (response.status === 401) {
+                    // Display error message if login failed
+                    errorMessage.style.display = "block";
+                } else if (response.status === 200) {
+                    // Redirect to the URL provided in the response
+                    response.json().then(data => {
+                        window.location.href = data.redirect;
+                    });
+                } else {
+                    console.error('Error:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+      // Validates if email is already in use.
+      function validateEmail() {
+        return fetch('/validate-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+             body: JSON.stringify({ email: userEmail.value })
+          })
+          .then(response => {
+            if (response.status === 409) {
+              emailError.style.display = "block";
+              return false;
+            } 
+            else if (response.status === 200) {
+              emailError.style.display = "none";
+              return true;
+            } 
+            else {
+              console.error('Error validating email:', response.statusText);
+              return false;
+            }
+          })
+          .catch(error => {
+            console.error('Error validating email:', error);
+            return false;
+          });
+        }
+
+        // Validates if username is already in use.
+        function validateUsername() {
+            return fetch('/validate-username', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: userUsername.value })
+            })
+            .then(response => {
+                if (response.status === 409) {
+                    nameError.style.display = "block";
+                    return false;
+                } else if (response.status === 200) {
+                    nameError.style.display = "none";
+                    return true;
+                } else {
+                    console.error('Error validating username:', response.statusText);
+                    return false;
+                }
+            })
+            .catch(error => {
+                console.error('Error validating username:', error);
+                return false;
+            });
+        }
+
+      confirm_password.addEventListener('keyup', function() {
+            if (password.value !== confirm_password.value) {
+                passError.style.display = "block";
+            } else {
+                passError.style.display = "none";
+            }
+      });
+
+      userEmail.addEventListener('keyup', function() {
+            if (emailError.style.display == "block") {
+              emailError.style.display = "none";
+            } 
+      });
+
+      userUsername.addEventListener('keyup', function() {
+            if (nameError.style.display == "block") {
+              nameError.style.display = "none";
+            } 
+      });
+
+      function registerInfo(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var form = document.getElementById("signup");
+
+        // Validate the form
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            console.log('Form is invalid');
+            return;
+        }
+
+        // Validate email and username
+        Promise.all([validateEmail(), validateUsername()])
+            .then(([isValidEmail, isValidUsername]) => {
+                console.log('Email validation:', isValidEmail);
+                console.log('Username validation:', isValidUsername);
+
+                // If email or username is invalid, prevent form submission
+                if (!isValidEmail || !isValidUsername) {
+                    console.log('Invalid email or username');
+                    return; 
+                }
+
+                // Check password confirmation
+                if (password.value !== confirm_password.value) {
+                    passError.style.display = "block";
+                    console.log('Passwords do not match');
+                    return; 
+                }
+
+                // If everything is valid, continue with form submission
+                var formData = {
+                    email: userEmail.value,
+                    username: userUsername.value,
+                    password: password.value // Make sure to use password.value here
+                };
+                console.log('Submitting form with data:', formData);
+
+                // Use fetch to submit the form data to the server
+                fetch('/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                  if (response.ok) {
+                      // Redirect on successful signup
+                      response.json().then(data => {
+                          window.location.href = data.redirect;
+                      });
+                  } else {
+                      // Handle error (e.g., email already taken)
+                      console.error('Error during sign up:', response.statusText);
+                  }
+                })
+                .catch(error => {
+                    console.error('Error during sign up:', error);
+                });
+            })
+            .catch(error => {
+                console.error('Error during form submission:', error);
+            });
+    }
+
+      // signup() and login() are transition effects.
+      function signup() {
+        const loginContainer = document.getElementById('login-container');
+        const signupContainer = document.getElementById('signup-container');
+
+        // Fade out the login container
+        loginContainer.classList.remove('active');
+
+        // Wait for fade-out transition to complete before switching containers
+        setTimeout(() => {
+          loginContainer.style.display = 'none'; // Hide the login form
+          signupContainer.style.display = 'block'; // Show the signup form
+          
+          // Small delay to allow display change to take effect before fading in
+          setTimeout(() => {
+            signupContainer.classList.add('active'); // Fade in the signup form
+          }, 10);
+        }, 250); // Match this duration to the CSS transition time (0.25s)
+      }
+
+      function login() {
+        const signupContainer = document.getElementById('signup-container');
+        const loginContainer = document.getElementById('login-container');
+
+        // Fade out the signup container
+        signupContainer.classList.remove('active');
+
+        // Wait for fade-out transition to complete before switching containers
+        setTimeout(() => {
+          signupContainer.style.display = 'none'; // Hide the signup form
+          loginContainer.style.display = 'block'; // Show the login form
+          
+          // Small delay to allow display change to take effect before fading in
+          setTimeout(() => {
+            loginContainer.classList.add('active'); // Fade in the login form
+          }, 10);
+        }, 250); // Match this duration to the CSS transition time (0.25s)
+      }
+
+      if (window.location.href.indexOf("signup") > -1) {
+            window.onload = signup;
+        }
+      else{
+        window.onload= login;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,354 @@
+/* Fredoka Font */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+*{
+    list-style-type: none;
+}
+
+body{
+    font-size: 25px;
+    color: white;
+    background-color: rgb(21,28,72);
+    font-family: Fredoka, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+strong{
+    font-weight: 500;
+}
+
+h1, h2, h3, 
+h4 ,h5 ,h6{
+    font-weight: 400;  
+}
+
+.header-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;  
+    top: 0;
+    z-index: 100;
+    padding: 0.5rem;
+    color: white;
+    height: 5vh;
+    box-sizing: border-box;
+    margin-top: 2rem;
+}
+
+.nav-container, .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+nav ul{
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a{
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.button {
+    background-color: #FFC300;
+    border: none;
+    color: #000000;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Fredoka', sans-serif;
+}
+
+.button:hover {
+    background-color: #FFD60A;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.recipe-title {
+    font-size: 2.5rem;
+    color: #FFC300; 
+    margin: 4rem auto 2rem;
+    text-align: center;
+    text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.3); 
+}
+
+.recipe-img-prep-ingredients {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0 auto;
+    gap: 20px;
+    justify-items: center;
+}
+
+.recipe-prep-ingredients {
+    border: 2px solid #FFD60A;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #29335c; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    width: 70%;
+    transition: all 300ms ease;
+}
+
+.recipe-prep-ingredients:hover {
+    background-color: transparent;
+}
+
+.recipe-img {
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    max-width: 100%;
+    height: auto;
+}
+
+.recipe-ingredients {
+    border-top: 2px solid #FFD60A; 
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+.recipe-ingredients h3 {
+    font-size: 1.8rem;
+    color: #FFD60A;
+    margin-bottom: 10px;
+    margin-left: 1rem;
+}
+
+.recipe-ingredients ul {
+    padding: 0 20px;
+    font-size: 1.1rem;
+    color: #f9f8f6;
+}
+
+.recipe-ingredients ul li {
+    margin-bottom: 1.5rem;
+    list-style-type: disc; 
+}
+
+.recipe-prep-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.hourglass{
+    height: 3rem;
+    width: auto;
+}
+
+.instructions-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.recipe-instructions {
+    background-color: #1d2945;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 30px auto;
+}
+
+
+.recipe-instructions h3 {
+    font-size: 1.8rem;
+    color: #FFD60A;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.recipe-instructions p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #f9f8f6;
+}
+
+/* Comment section*/ 
+div.comment-section h2{
+    color: #FFC300;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.comment-button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #FFC300;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.comment-button:hover {
+    background-color: #FFD60A;
+    transform: translateY(-2px);
+}
+
+.comment-bar {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#comment-box {
+    padding: 10px;
+    width: 400px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s ease;
+    background-color: #f9f8f6;
+    color: #333;
+    padding-left: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#comment-box::placeholder {
+    color: #aaa;
+}
+
+#comment-box:focus {
+    border-color: #FFD60A;
+}
+
+/* Comment Container */
+.comments-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.comment-div {
+    background-color: #29335c;
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.comment-div .username {
+    font-weight: 600;
+    color: #FFD60A;
+    font-size: 1.1rem;
+}
+
+.comment-div .comment-text {
+    margin-top: 8px;
+    font-size: 1rem;
+    color: #f9f8f6;
+}
+
+.comment-div .comment-date {
+    font-size: 0.9rem;
+    color: #bbb;
+    margin-top: 10px;
+    text-align: right;
+}
+
+
+/* Login-Signup and Sign-out buttons */
+#auth-buttons{
+    display: flex;
+    width: 190px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.auth-button {
+    padding: 10px 20px;
+    background-color: transparent;
+    color: white;
+    border: 2px solid #FFC300;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: auto;
+}
+
+.auth-button:hover {
+    background-color: #FFC300;
+    color: #000000;
+    cursor: pointer;
+}
+
+.username-label{
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    font-size: 12px;
+    max-width: 100px;
+    border: 2px solid #f1e5c0;
+    border-radius: 30px;
+    flex-direction: row;
+    gap: 8px;
+    margin-right: 20px;
+}
+
+#profile{
+    height: 1.2rem;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 700px){
+    .logo-container h3{
+        display: none;
+    }
+
+    nav{
+        display: none;
+    }
+
+    .nav-container .button{
+        display: none;
+    }
+
+    .recipe-img-prep-ingredients {
+        grid-template-columns: 1fr;
+    }
+
+    .recipe-img{
+        width: 80%;
+    }
+
+    #comment-box{
+        width: 80%;
+        margin-bottom: 1rem;
+    }
+    
+}

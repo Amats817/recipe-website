@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/search.css" />
+    <link rel="icon" type="image/x-icon" href="/images/logo-egg.png" />
+    <title>Food Recipes</title>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <a href="/" title="Recipe Book Homepage">
+          <div class="logo-container">
+            <img src="/images/logo-egg.png" alt="Logo" />
+            <h3>Recipe Book</h3>
+          </div>
+        </a>
+        <div class="nav-container">
+          <nav>
+            <ul>
+              <li><a href="/">Home</a></li>
+            </ul>
+          </nav>
+          <button class="button" onclick= "window.location.href = '/search'">Search Recipes</button>
+          <div id="auth-buttons">
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="search-div">
+        <h1>Search Recipes</h1>
+        <form class="search-bar" onsubmit="event.preventDefault(); search();">
+            <input
+            type="text"
+            id="recipe-search"
+            placeholder="Search for a recipe..."
+            />
+            <button type="button" onclick="search()" class="search-button">Search</button>
+        </form>
+    </div>
+    <div class="category-section">
+      <button class="category-button" data-category="beef">Beef</button>
+      <button class="category-button" data-category="chicken">Chicken</button>
+      <button class="category-button" data-category="pork">Pork</button>
+      <button class="category-button" data-category="egg">Egg</button>
+      <button class="category-button" data-category="lamb">Lamb</button>
+    </div>
+    <div class="result-div">
+        <p id="search-text" style="display: none;"></p>
+        <div class="recipes-container">
+        </div>
+    </div>
+    <script src="/js/search.js"></script>
+    <script src="/js/category.js"></script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/images/logo-egg.png" />
+    <title>Sign-Up Complete</title>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <a href="/" title="Recipe Book Homepage">
+        <div class="logo-container">
+          <img src="/images/logo-egg.png" alt="Logo" />
+          <h3>Recipe Book</h3>
+        </div>
+        </a>
+        <div class="nav-container">
+          <nav>
+            <ul>
+              <li><a href="/">Home</a></li>
+            </ul>
+          </nav>
+          <button class="button" onclick= "window.location.href = '/search'">Search Recipes</button>
+          <div id="auth-buttons">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="login-reg">
+      <div class="active">
+        <h1 style ="color: white; font-size: 50px;" >Sign-Up Successful!</h1>
+        <p><a href="/login">Return to login</a></p>
+      </div>
+    </main>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch('/auth-status')
+          .then(response => response.json())
+          .then(data => {
+              console.log('Auth status:', data);
+              const authButtons = document.getElementById('auth-buttons');
+
+              if (data.loggedIn) {
+                  // User is logged in, show Sign-Out button and username label
+                  authButtons.innerHTML = `
+                      <button class="auth-button" onclick="signOut()">Sign-Out</button>
+                      <span class="username-label">Signed-in as: <strong>${data.username}</strong></span>
+                  `;
+              } else {
+                  // User is not logged in, show Login and Sign-Up buttons
+                  authButtons.innerHTML = `
+                      <a href="/login" class="auth-button">Login</a>
+                      <a href="/signup" class="auth-button">SignUp</a>
+                  `;
+              }
+          })
+          .catch(error => console.error('Error checking auth status:', error));
+      });
+      function signOut() {
+        fetch('/logout', { method: 'POST' })
+          .then(response => {
+            if (response.ok) {
+              window.location.reload();
+            }
+          })
+        .catch(error => console.error('Error during logout:', error));
+      }
+    </script>
+  </body>
+</html>

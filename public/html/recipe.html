@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Recipes</title>
+    <link rel="stylesheet" href="/css/recipe.css" />
+    <link rel="icon" type="image/x-icon" href="/images/logo-egg.png" />
+  </head>
+  <body>
+    <script src="/js/recipe.js"></script>
+    <header>
+      <div class="header-container">
+        <a href="/" title="Recipe Book Homepage">
+        <div class="logo-container">
+          <img src="/images/logo-egg.png" />
+          <h3>Recipe Book</h3>
+        </div>
+        </a>
+        <div class="nav-container">
+          <nav>
+            <ul>
+              <li><a href="/">Home</a></li>
+            </ul>
+          </nav>
+          <button class="button" onclick= "window.location.href = '/search'">Search Recipes</button>
+          <div id="auth-buttons">
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="recipe-container"></div>
+    <div class ="comment-section">
+      <h2>Comments</h2>
+      <form class="comment-bar">
+        <input
+            type="text"
+            id="comment-box"
+            placeholder="Leave a comment..."
+            />
+            <button type="button" class="comment-button">Comment</button>
+      </form>
+      <div class="comments-container"></div>
+    </div>
+  </body>
+</html>
